@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use App\http\Requests\CallbackRequest;
+// use App\http\Requests\CallbackRequest;
 use App\Models\User;
 use App\Models\Callback;
 use Illuminate\Support\Facades\Storage;
@@ -36,14 +36,31 @@ class HomeController extends Controller
             return view('home');
         }
     }
-    public function submitMassage(CallbackRequest $req)
+    public function submitMassage(Request $req)
     {
+		$rules = [
+			'title_message' => 'required',
+			'message' => 'required',
+			'uploadFile' => 'required|file|mimes:jpeg,bmp,png,gif,docx,xlsx,pdf|max:3072'
+		];
+
+		$messages = [
+			'title_message.required' => 'Поле Тема сообщения является обязательным',
+			'message.required' => 'Поле Текст сообщения является обязательным',
+			'uploadFile.required' => 'Поле Загрузить файл является обязательным',
+			'uploadFile.mimes' => 'Поле загружаемого файла должно быть файлом типа:  jpg, jpeg, png, gif, docx, xlsx, pdff',
+			'uploadFile.max' => 'Поле загружаемого файла должно быть меньше 3 МБ'
+		];
+
+$req->validate($rules,$messages);
+
         $filePath=null;
         $filePath2=null;
         if($req->hasFile('uploadFile')){
             $file = $req->file('uploadFile');
             $fileName = rand(1, 9999) . $file->getClientOriginalName();
-            $filePath_year =  date("Y") . '/' . date("m") . "/" . $fileName;
+            // $filePath_year =  date("Y") . '/' . date("m") . "/" . $fileName;
+            $filePath_year =  $fileName;
             $filePath= $req->file('uploadFile')->storeAs('uploads',  $filePath_year);
         }
         $id_user =Auth::user()->id ;
@@ -53,7 +70,7 @@ class HomeController extends Controller
         $callback->message = $req->input('message');
         $callback->uploadFile = "app/".$filePath;
         $callback->save();
-        $toEmail = "alnooras10@mail.ru";
+        // $toEmail = "alnooras10@mail.ru";
         // $message = $req->input('message');
 		// $mm = new SendMail($message);
 		// Mail::to($toEmail)->send(new SendMail($message));
@@ -122,7 +139,7 @@ class HomeController extends Controller
           "useremail" => $useremail,
           "title_message" => $title_message,
           "message" => $message,
-          "uploadFile" => '<a href="'.url('/').$uploadFile.'">Ссылка файл</a>'
+          "uploadFile" => '<a href="'.url('/').$uploadFile.'" target="_blank">Ссылка файл</a>'
         );
      }
 
