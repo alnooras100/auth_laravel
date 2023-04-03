@@ -54,10 +54,10 @@ class HomeController extends Controller
         $callback->uploadFile = "app/".$filePath;
         $callback->save();
         $toEmail = "alnooras10@mail.ru";
-        $message = $req->input('message');
-		$mm = new SendMail($message);
-		Mail::to($toEmail)->send(new SendMail($message));
-        return redirect()->route('home')->with('success', 'Сообщение было добавлено');
+        // $message = $req->input('message');
+		// $mm = new SendMail($message);
+		// Mail::to($toEmail)->send(new SendMail($message));
+        return redirect()->route('home')->with('success', 'Сообщение было отправлено');
     }
     
     public function allCallbacks(){
