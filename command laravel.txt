@@ -1,0 +1,17 @@
+php artisan db:wipe حذف قاعدة البيانات
+php artisan migrate دمج الجداول الى قاعدة البيانات
+php artisan migrate:fresh  تحديث الجداول في قاعدة البيانات
+npm run build اذا ما تحملت الفيو vue
+npm install
+npm run dev upload vue.js
+php artisan ui vue --auth download doc auth
+composer require laravel/ui for auth
+php artisan config:cache for clear cache
+php artisan make:controller ContactController for create new controller
+php artisan make:request CallbackRequest for create new request for validatae
+php artisan make:model Callback -m for create new model for db
+php artisan migrate:refresh --path=/database/migrations/2023_03_31_204243_create_callbacks_table.php
+ php artisan storage:link
+
+Update these values(Below) of mysql array in /config/database.php
+'charset' => 'utf8', 'collation' => 'utf8_general_ci',
